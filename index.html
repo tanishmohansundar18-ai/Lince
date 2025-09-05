@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linse Electronics</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body, html {
+      height: 100%;
+      background-color: #001f4d; /* dark blue */
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    #app {
+      width: 100%;
+      max-width: 700px;
+      background-color: #002960;
+      border-radius: 14px;
+      box-shadow: 0 0 40px #5f00dd;
+      padding: 40px 30px;
+      text-align: center;
+      min-height: 400px;
+      position: relative;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 5px;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #bbb;
+      margin-bottom: 30px;
+    }
+    button {
+      background-color: #5f00dd;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      padding: 14px 35px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #3a0080;
+    }
+    /* Screen 2 - Categories */
+    .category-list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      text-align: left;
+    }
+    .category {
+      background-color: #003973;
+      border-radius: 12px;
+      padding: 15px 25px;
+    }
+    .category h2 {
+      cursor: pointer;
+      user-select: none;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    .category h2::after {
+      content: "+";
+      position: absolute;
+      right: 0;
+      font-weight: 900;
+      font-size: 2rem;
+      color: #bbb;
+      top: 0;
+      transition: transform 0.3s;
+    }
+    .category.expanded h2::after {
+      transform: rotate(45deg);
+      color: #5f00dd;
+    }
+    .models {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      margin-left: 15px;
+    }
+    .category.expanded .models {
+      display: flex;
+    }
+    .model {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #001f4d;
+      border-radius: 8px;
+      padding: 10px 15px;
+    }
+    .model-name {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .buy-btn {
+      background-color: #7d33ff;
+      border: none;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .buy-btn:hover {
+      background-color: #3a0080;
+    }
+    /* Voucher modal */
+    .modal {
+      position: fixed;
+      z-index: 3000;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-content {
+      background-color: #002960;
+      border-radius: 15px;
+      padding: 30px 40px;
+      color: #eee;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 30px #5f00dd;
+    }
+    .modal-content h3 {
+      margin-bottom: 12px;
+      font-size: 1.8rem;
+      color: #5f00dd;
+    }
+    .voucher-code {
+      background-color: #001f4d;
+      border-radius: 8px;
+      padding: 15px 20px;
+      font-family: monospace;
+      letter-spacing: 4px;
+      font-weight: bold;
+      font-size: 1.6rem;
+      user-select: text;
+      margin-bottom: 25px;
+    }
+    .close-btn {
+      background-color: #5f00dd;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .close-btn:hover {
+      background-color: #3a0080;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Screen 1 -->
+    <div id="screen1">
+      <h1>Linse</h1>
+      <div class="subtitle">Since 2023</div>
+      <button id="nextBtn">Next</button>
+    </div>
+
+    <!-- Screen 2 -->
+    <div id="screen2" style="display:none;">
+      <h1>Select a Category</h1>
+      <div class="category-list">
+        <div class="category" data-category="smartwatch">
+          <h2>Smartwatches</h2>
+          <div class="models">
+            <div class="model">
+              <div class="model-name">Linse Watch A1</div>
+              <button class="buy-btn" data-model="Linse Watch A1">Buy</button>
+            </div>
+            <div class="model">
+              <div class="model-name">Linse Watch A2</div>
+              <button class="buy-btn" data-model="Linse Watch A2">Buy</button>
+            </div>
+            <div class="model">
+              <div class="model-name">Linse Watch A3</div>
+              <button class="buy-btn" data-model="Linse Watch A3">Buy</button>
+            </div>
+          </div>
+        </div>
+        <div class="category" data-category="smartphone">
+          <h2>Smartphones</h2>
+          <div class="models">
+            <div class="model">
+              <div class="model-name">Linse Phone S1</div>
+              <button class="buy-btn" data-model="Linse Phone S1">Buy</button>
+            </div>
+            <div class="model">
+              <div class="model-name">Linse Phone S2</div>
+              <button class="buy-btn" data-model="Linse Phone S2">Buy</button>
+            </div>
+            <div class="model">
+              <div class="model-name">Linse Phone S3</div>
+              <button class="buy-btn" data-model="Linse Phone S3">Buy</button>
+            </div>
+          </div>
+        </div>
+        <div class="category" data-category="laptop">
+          <h2>Laptops</h2>
+          <div class="models">
+            <div class="model">
+              <div class="model-name">Linse Laptop L1</div>
+              <button class="buy-btn" data-model="Linse Laptop L1">Buy</button>
+            </div>
+            <div class="model">
+              <div class="model-name">Linse Laptop L2</div>
+              <button class="buy-btn" data-model="Linse Laptop L2">Buy</button>
+            </div>
+            <div class="model">
+              <div class="model-name">Linse Laptop L3</div>
+              <button class="buy-btn" data-model="Linse Laptop L3">Buy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voucher Modal -->
+    <div id="voucherModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="voucherTitle" tabindex="-1">
+      <div class="modal-content">
+        <h3 id="voucherTitle">Thank you for your purchase!</h3>
+        <div>Your unique voucher code:</div>
+        <div id="voucherCode" class="voucher-code" tabindex="0"></div>
+        <button class="close-btn" id="closeModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const nextBtn = document.getElementById('nextBtn');
+    const screen1 = document.getElementById('screen1');
+    const screen2 = document.getElementById('screen2');
+    const voucherModal = document.getElementById('voucherModal');
+    const voucherCodeDiv = document.getElementById('voucherCode');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    // Show screen 2 when next clicked
+    nextBtn.addEventListener('click', () => {
+      screen1.style.display = 'none';
+      screen2.style.display = 'block';
+    });
+
+    // Expand/collapse categories
+    document.querySelectorAll('.category h2').forEach(heading => {
+      heading.addEventListener('click', () => {
+        const categoryDiv = heading.parentElement;
+        categoryDiv.classList.toggle('expanded');
+      });
+    });
+
+    // Buy buttons generate vouchers
+    function generateVoucherCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = 'LINSE-';
+      for (let i = 0; i < 8; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const model = e.target.getAttribute('data-model');
+        const voucher = generateVoucherCode();
+        voucherCodeDiv.textContent = voucher;
+        voucherModal.style.display = 'flex';
+        voucherModal.focus();
+        // You can enhance this to store voucher or handle backend etc.
+      });
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      voucherModal.style.display = 'none';
+    });
+
+    // Close modal on clicking outside content
+    voucherModal.addEventListener('click', (e) => {
+      if (e.target === voucherModal) {
+        voucherModal.style.display = 'none';
+      }
+    });
+
+    // Accessibility: Trap focus in modal (optional, but basic)
+    voucherModal.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        voucherModal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
