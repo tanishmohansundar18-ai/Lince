@@ -27,9 +27,9 @@
       border-radius: 14px;
       box-shadow: 0 0 40px #5f00dd;
       padding: 40px 30px;
-      text-align: center;
       min-height: 400px;
       position: relative;
+      text-align: center;
     }
     h1 {
       font-size: 3rem;
@@ -104,9 +104,19 @@
       border-radius: 8px;
       padding: 10px 15px;
     }
+    .model-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      max-width: 65%;
+    }
     .model-name {
       font-size: 1.15rem;
       font-weight: 600;
+    }
+    .model-price {
+      font-size: 1rem;
+      color: #ccc;
     }
     .buy-btn {
       background-color: #7d33ff;
@@ -117,143 +127,172 @@
       font-weight: 700;
       cursor: pointer;
       transition: background-color 0.3s;
+      white-space: nowrap;
     }
     .buy-btn:hover {
       background-color: #3a0080;
     }
-    /* Voucher modal */
-    .modal {
-      position: fixed;
-      z-index: 3000;
-      top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      justify-content: center;
+
+    /* Screen 3 Purchase Confirmation */
+    .purchase-screen {
+      display: none;
+      flex-direction: column;
       align-items: center;
-      padding: 20px;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .modal.active {
-      visibility: visible;
-      opacity: 1;
-    }
-    .modal-content {
-      background-color: #002960;
-      border-radius: 15px;
-      padding: 30px 40px;
-      color: #eee;
-      max-width: 400px;
+      justify-content: center;
+      height: 100%;
       text-align: center;
-      box-shadow: 0 0 30px #5f00dd;
+      gap: 20px;
     }
-    .modal-content h3 {
-      margin-bottom: 12px;
-      font-size: 1.8rem;
-      color: #5f00dd;
+    .purchase-screen.active {
+      display: flex;
     }
     .voucher-code {
       background-color: #001f4d;
       border-radius: 8px;
-      padding: 15px 20px;
+      padding: 15px 25px;
       font-family: monospace;
-      letter-spacing: 4px;
+      letter-spacing: 5px;
       font-weight: bold;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       user-select: text;
-      margin-bottom: 25px;
     }
-    .close-btn {
-      background-color: #5f00dd;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 30px;
-      font-weight: 700;
-      color: white;
-      cursor: pointer;
-      font-size: 1.1rem;
-    }
-    .close-btn:hover {
-      background-color: #3a0080;
+    /* Responsive */
+    @media (max-width: 768px) {
+      .category-list {
+        padding: 0 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <!-- Screen 1 -->
-    <div id="screen1">
-      <h1>Linse</h1>
-      <div class="subtitle">Since 2023</div>
-      <button id="nextBtn">Next</button>
-    </div>
+<div id="app">
+  <!-- Screen 1 -->
+  <div id="screen1" class="screen">
+    <h1>Linse</h1>
+    <div class="subtitle">Since 2023</div>
+    <button id="nextBtn">Next</button>
+  </div>
 
-    <!-- Screen 2 -->
-    <div id="screen2" style="display:none;">
-      <h1>Select a Category</h1>
-      <div class="category-list">
-        <div class="category" data-category="smartwatch">
-          <h2>Smartwatches</h2>
-          <div class="models">
-            <div class="model">
-              <div class="model-name">Linse Watch A1</div>
-              <button class="buy-btn" data-model="Linse Watch A1">Buy</button>
+  <!-- Screen 2 -->
+  <div id="screen2" class="screen" style="display:none; text-align: center;">
+    <h1>Select a Category</h1>
+    <div class="category-list" aria-live="polite">
+      <div class="category" data-category="smartwatch">
+        <h2 tabindex="0">Smartwatches</h2>
+        <div class="models">
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Tracker Pro</div>
+              <div class="model-price">$249</div>
             </div>
-            <div class="model">
-              <div class="model-name">Linse Watch A2</div>
-              <button class="buy-btn" data-model="Linse Watch A2">Buy</button>
+            <button class="buy-btn" data-model="Linse Tracker Pro" data-price="249">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Sport X</div>
+              <div class="model-price">$199</div>
             </div>
-            <div class="model">
-              <div class="model-name">Linse Watch A3</div>
-              <button class="buy-btn" data-model="Linse Watch A3">Buy</button>
+            <button class="buy-btn" data-model="Linse Sport X" data-price="199">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Luxe Watch</div>
+              <div class="model-price">$349</div>
             </div>
+            <button class="buy-btn" data-model="Linse Luxe Watch" data-price="349">Buy</button>
           </div>
         </div>
-        <div class="category" data-category="smartphone">
-          <h2>Smartphones</h2>
-          <div class="models">
-            <div class="model">
-              <div class="model-name">Linse Phone S1</div>
-              <button class="buy-btn" data-model="Linse Phone S1">Buy</button>
+      </div>
+
+      <div class="category" data-category="smartphone">
+        <h2 tabindex="0">Smartphones</h2>
+        <div class="models">
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Aurora S1</div>
+              <div class="model-price">$799</div>
             </div>
-            <div class="model">
-              <div class="model-name">Linse Phone S2</div>
-              <button class="buy-btn" data-model="Linse Phone S2">Buy</button>
+            <button class="buy-btn" data-model="Linse Aurora S1" data-price="799">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Nova S2</div>
+              <div class="model-price">$899</div>
             </div>
-            <div class="model">
-              <div class="model-name">Linse Phone S3</div>
-              <button class="buy-btn" data-model="Linse Phone S3">Buy</button>
+            <button class="buy-btn" data-model="Linse Nova S2" data-price="899">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Photon X</div>
+              <div class="model-price">$999</div>
             </div>
+            <button class="buy-btn" data-model="Linse Photon X" data-price="999">Buy</button>
           </div>
         </div>
-        <div class="category" data-category="laptop">
-          <h2>Laptops</h2>
-          <div class="models">
-            <div class="model">
-              <div class="model-name">Linse Laptop L1</div>
-              <button class="buy-btn" data-model="Linse Laptop L1">Buy</button>
+      </div>
+
+      <div class="category" data-category="laptop">
+        <h2 tabindex="0">Laptops</h2>
+        <div class="models">
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Stratus L1</div>
+              <div class="model-price">$1299</div>
             </div>
-            <div class="model">
-              <div class="model-name">Linse Laptop L2</div>
-              <button class="buy-btn" data-model="Linse Laptop L2">Buy</button>
+            <button class="buy-btn" data-model="Linse Stratus L1" data-price="1299">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Cascade L2</div>
+              <div class="model-price">$1499</div>
             </div>
-            <div class="model">
-              <div class="model-name">Linse Laptop L3</div>
-              <button class="buy-btn" data-model="Linse Laptop L3">Buy</button>
+            <button class="buy-btn" data-model="Linse Cascade L2" data-price="1499">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse Horizon L3</div>
+              <div class="model-price">$1699</div>
             </div>
+            <button class="buy-btn" data-model="Linse Horizon L3" data-price="1699">Buy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="category" data-category="ipad">
+        <h2 tabindex="0">iPads</h2>
+        <div class="models">
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse iPad Air</div>
+              <div class="model-price">$599</div>
+            </div>
+            <button class="buy-btn" data-model="Linse iPad Air" data-price="599">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse iPad Mini</div>
+              <div class="model-price">$499</div>
+            </div>
+            <button class="buy-btn" data-model="Linse iPad Mini" data-price="499">Buy</button>
+          </div>
+          <div class="model">
+            <div class="model-info">
+              <div class="model-name">Linse iPad Pro</div>
+              <div class="model-price">$999</div>
+            </div>
+            <button class="buy-btn" data-model="Linse iPad Pro" data-price="999">Buy</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Voucher Modal -->
-    <div id="voucherModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="voucherTitle" tabindex="-1">
-      <div class="modal-content">
-        <h3 id="voucherTitle">Thank you for your purchase!</h3>
-        <div>Your unique voucher code:</div>
-        <div id="voucherCode" class="voucher-code" tabindex="0"></div>
-        <button class="close-btn" id="closeModalBtn">Close</button>
-      </div>
+    <!-- Screen 3: Purchase Confirmation -->
+    <div id="screen3" class="screen purchase-screen">
+      <h1>Thank you for purchasing!</h1>
+      <p>You just bought <strong id="purchasedModel"></strong> for <strong id="purchasedPrice"></strong>.</p>
+      <p>Your unique voucher code is:</p>
+      <div id="voucherCode" class="voucher-code" tabindex="0"></div>
+      <button id="backToCategories">Back to Categories</button>
     </div>
   </div>
 
@@ -261,25 +300,31 @@
     const nextBtn = document.getElementById('nextBtn');
     const screen1 = document.getElementById('screen1');
     const screen2 = document.getElementById('screen2');
-    const voucherModal = document.getElementById('voucherModal');
+    const screen3 = document.getElementById('screen3');
+    const purchasedModel = document.getElementById('purchasedModel');
+    const purchasedPrice = document.getElementById('purchasedPrice');
     const voucherCodeDiv = document.getElementById('voucherCode');
-    const closeModalBtn = document.getElementById('closeModalBtn');
+    const backToCategoriesBtn = document.getElementById('backToCategories');
 
-    // Show screen 2 when next clicked
     nextBtn.addEventListener('click', () => {
       screen1.style.display = 'none';
       screen2.style.display = 'block';
     });
 
-    // Expand/collapse categories
+    // Expand and collapse categories on heading click or key press
     document.querySelectorAll('.category h2').forEach(heading => {
       heading.addEventListener('click', () => {
-        const categoryDiv = heading.parentElement;
-        categoryDiv.classList.toggle('expanded');
+        heading.parentElement.classList.toggle('expanded');
+      });
+      heading.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          heading.parentElement.classList.toggle('expanded');
+        }
       });
     });
 
-    // Buy buttons generate vouchers
+    // Generate unique voucher code
     function generateVoucherCode() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let code = 'LINSE-';
@@ -289,33 +334,25 @@
       return code;
     }
 
+    // Buy button: show purchase confirmation screen with voucher
     document.querySelectorAll('.buy-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const model = e.target.getAttribute('data-model');
+      btn.addEventListener('click', (event) => {
+        const model = btn.getAttribute('data-model');
+        const price = btn.getAttribute('data-price');
         const voucher = generateVoucherCode();
+        purchasedModel.textContent = model;
+        purchasedPrice.textContent = `$${price}`;
         voucherCodeDiv.textContent = voucher;
-        voucherModal.style.display = 'flex';
-        voucherModal.focus();
-        // You can enhance this to store voucher or handle backend etc.
+        screen2.style.display = 'none';
+        screen3.style.display = 'flex';
+        voucherCodeDiv.focus();
       });
     });
 
-    closeModalBtn.addEventListener('click', () => {
-      voucherModal.style.display = 'none';
-    });
-
-    // Close modal on clicking outside content
-    voucherModal.addEventListener('click', (e) => {
-      if (e.target === voucherModal) {
-        voucherModal.style.display = 'none';
-      }
-    });
-
-    // Accessibility: Trap focus in modal (optional, but basic)
-    voucherModal.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        voucherModal.style.display = 'none';
-      }
+    // Back to categories from purchase screen
+    backToCategoriesBtn.addEventListener('click', () => {
+      screen3.style.display = 'none';
+      screen2.style.display = 'block';
     });
   </script>
 </body>
