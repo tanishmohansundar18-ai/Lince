@@ -29,35 +29,35 @@
       background: #fbc02d;
       padding: 10px;
     }
-    nav a {
-      color: #000;
+    nav button {
+      background: none;
+      border: none;
       margin: 0 15px;
-      text-decoration: none;
       font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
     }
-    nav a:hover {
+    nav button:hover {
       color: #e65100;
     }
     section {
+      display: none;
       padding: 40px;
       max-width: 1100px;
       margin: auto;
+      text-align: center;
     }
     h2 {
       color: #e65100;
       margin-bottom: 20px;
     }
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
     .product-card {
       background: #fff59d;
-      padding: 20px;
+      padding: 30px;
       border-radius: 12px;
-      text-align: center;
       box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+      display: inline-block;
+      max-width: 400px;
     }
     .product-card h3 {
       color: #e65100;
@@ -121,50 +121,62 @@
   </header>
 
   <nav>
-    <a href="#home">Home</a>
-    <a href="#products">Products</a>
-    <a href="#about">About Us</a>
-    <a href="#contact">Contact</a>
+    <button onclick="showScreen('home')">Home</button>
+    <button onclick="showScreen('phone')">Phone</button>
+    <button onclick="showScreen('airpods')">AirPods</button>
+    <button onclick="showScreen('laptop')">Laptop</button>
+    <button onclick="showScreen('watch')">Watch</button>
+    <button onclick="showScreen('about')">About Us</button>
+    <button onclick="showScreen('contact')">Contact</button>
   </nav>
 
-  <section id="home">
+  <section id="home" style="display:block;">
     <h2>Welcome to Lince Electronics</h2>
-    <p>We combine creativity and technology to design innovative electronics for the modern generation. Explore our wide range of gadgets, crafted for performance and style.</p>
+    <p>We combine creativity and technology to design innovative electronics for the modern generation.  
+    Explore our wide range of gadgets, crafted for performance and style.</p>
   </section>
 
-  <section id="products">
-    <h2>Our Products</h2>
-    <div class="product-grid">
-      <div class="product-card">
-        <h3>Lince Phone Z</h3>
-        <p>6.4" Display, 128GB, 50MP Camera</p>
-        <div class="price">₹34,999</div>
-        <button class="buy-btn" onclick="generateBill('Lince Phone Z', 34999)">Buy Now</button>
-      </div>
-      <div class="product-card">
-        <h3>Lince AirPods Max</h3>
-        <p>Premium Wireless Headphones</p>
-        <div class="price">₹19,999</div>
-        <button class="buy-btn" onclick="generateBill('Lince AirPods Max', 19999)">Buy Now</button>
-      </div>
-      <div class="product-card">
-        <h3>LinceBook Ultra</h3>
-        <p>14" Laptop, 16GB RAM, 512GB SSD</p>
-        <div class="price">₹79,999</div>
-        <button class="buy-btn" onclick="generateBill('LinceBook Ultra', 79999)">Buy Now</button>
-      </div>
-      <div class="product-card">
-        <h3>Lince Watch Pro</h3>
-        <p>Smartwatch with GPS & Health Tracking</p>
-        <div class="price">₹12,999</div>
-        <button class="buy-btn" onclick="generateBill('Lince Watch Pro', 12999)">Buy Now</button>
-      </div>
+  <section id="phone">
+    <div class="product-card">
+      <h3>Lince Phone Z</h3>
+      <p>6.4" Display, 128GB, 50MP Camera</p>
+      <div class="price">₹34,999</div>
+      <button class="buy-btn" onclick="generateBill('Lince Phone Z', 34999)">Buy Now</button>
+    </div>
+  </section>
+
+  <section id="airpods">
+    <div class="product-card">
+      <h3>Lince AirPods Max</h3>
+      <p>Premium Wireless Headphones</p>
+      <div class="price">₹19,999</div>
+      <button class="buy-btn" onclick="generateBill('Lince AirPods Max', 19999)">Buy Now</button>
+    </div>
+  </section>
+
+  <section id="laptop">
+    <div class="product-card">
+      <h3>LinceBook Ultra</h3>
+      <p>14" Laptop, 16GB RAM, 512GB SSD</p>
+      <div class="price">₹79,999</div>
+      <button class="buy-btn" onclick="generateBill('LinceBook Ultra', 79999)">Buy Now</button>
+    </div>
+  </section>
+
+  <section id="watch">
+    <div class="product-card">
+      <h3>Lince Watch Pro</h3>
+      <p>Smartwatch with GPS & Health Tracking</p>
+      <div class="price">₹12,999</div>
+      <button class="buy-btn" onclick="generateBill('Lince Watch Pro', 12999)">Buy Now</button>
     </div>
   </section>
 
   <section id="about">
     <h2>About Us</h2>
-    <p>Lince Electronics was founded with a mission: to bring brilliance and reliability into every device. We believe technology should not only solve problems but also brighten everyday life. With innovation at our core, we design and deliver electronics that stand the test of time and creativity.</p>
+    <p>Lince Electronics was founded with a mission: to bring brilliance and reliability into every device.  
+    We believe technology should not only solve problems but also brighten everyday life.  
+    With innovation at our core, we design and deliver electronics that stand the test of time and creativity.</p>
   </section>
 
   <section id="contact">
@@ -188,19 +200,25 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
+    function showScreen(id) {
+      document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
+      document.getElementById('bill').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
+    }
+
     function generateBill(product, price) {
+      document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
       document.getElementById('bill').style.display = 'block';
+
       const billDetails = `Product: ${product} | Price: ₹${price}`;
       document.getElementById('bill-details').innerText = billDetails;
-      
-      // Generate QR Code
+
       const qrCanvas = document.getElementById('qr');
       QRCode.toCanvas(qrCanvas, billDetails, function (error) {
         if (error) console.error(error);
       });
-
-      window.scrollTo(0, document.body.scrollHeight);
     }
   </script>
 </body>
 </html>
+
